@@ -1,0 +1,66 @@
+name: "Terragrunt Destroy PROD"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "destroy/prod/**"
+jobs:
+  terragrunt:
+    name: Terragrunt
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+    env:
+      WORKING_DIRECTORY: env/prod
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: eu-central-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.2.9
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.38.7
+
+      - name: Terragrunt Format
+        id: fmt
+        run: terragrunt hclfmt --terragrunt-check
+
+      - name: Terragrunt Init
+        id: init
+        run: terragrunt run-all init
+
+      - name: Terragrunt Validate
+        id: validate
+        run: terragrunt run-all validate
+
+      - name: Terragrunt Plan
+        id: plan
+
+        run: terragrunt run-all plan
+        continue-on-error: true
+
+      - name: Terragrunt Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terragrunt Auto Destroy
+        if: github.event_name == 'push'
+        run: terragrunt run-all destroy --terragrunt-non-interactive  -auto-approve
