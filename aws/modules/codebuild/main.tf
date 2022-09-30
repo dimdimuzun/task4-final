@@ -14,7 +14,14 @@ resource "aws_codebuild_project" "this" {
   artifacts {
     type = "NO_ARTIFACTS"
   }
-
+  /*
+  vpc_config {
+    vpc_id = var.vpc_id
+    #subnets            = var.private_subnets_id
+    subnets            = var.public_subnets_id
+    security_group_ids = [aws_security_group.codebuild_sg.id]
+  }
+*/
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
     image        = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
@@ -43,7 +50,9 @@ resource "aws_codebuild_project" "this" {
     }
   }
   source_version = var.github_branch
- 
+  #tags = {
+  #  Environment = "${var.environment}"
+  #}
 }
 
 resource "aws_codebuild_webhook" "webhook" {

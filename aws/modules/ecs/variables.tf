@@ -48,21 +48,27 @@ variable "public_subnets_id" {
   default     = []
 }
 
+variable "private_subnets_id" {
+  description = "A list of private subnets id inside the VPC"
+  type        = list(string)
+  default     = []
+}
+
 variable "health_check_path" {
   default = ""
 }
 # for roles
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
-  default     = "TaskExecutionRole"
+  default = "TaskExecutionRole"
 }
 
 variable "ecs_task_role_name" {
   description = "ECS task role name"
-  default     = "TaskRole"
+  default = "TaskRole"
 }
 
 variable "ecs_auto_scale_role_name" {
   description = "ECS auto scale role Name"
-  default     = "AutoScaleRole"
+  default = "AutoScaleRole"
 }

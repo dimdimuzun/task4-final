@@ -7,10 +7,10 @@ include {
 dependency "ecr" {
   config_path = "../ecr"
   mock_outputs = {
-    ecr_url     = "000000000000.dkr.ecr.eu-central-1.amazonaws.com/fake"
+    ecr_url     = "000000000000.dkr.ecr.eu-central-1.amazonaws.com/image"
     registry_id = "000000000000"
   }
-
+  # skip_outputs = true
 }
 
 

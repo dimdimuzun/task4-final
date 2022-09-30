@@ -4,7 +4,9 @@ resource "aws_alb" "main" {
   subnets         = var.public_subnets_id
   security_groups = [aws_security_group.lb.id]
 
- 
+ # tags = {
+  #  Environment = "${var.environment}"
+  #}
 }
 # Target group for ALB
 resource "aws_alb_target_group" "app" {

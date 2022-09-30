@@ -52,9 +52,10 @@ resource "aws_route_table_association" "custom-rtb-public-subnet" {
   route_table_id = aws_route_table.public[each.key].id
   subnet_id      = aws_subnet.public[each.key].id
 }
+
 # Private subnet
 
-
+/*
 # Create a NAT gateway with an Elastic IP for each private subnet to get internet connectivity
 resource "aws_eip" "nat_eip" {
   for_each = var.private_subnets_map
@@ -107,4 +108,4 @@ resource "aws_route_table_association" "custom-rtb-private-subnet" {
   route_table_id = aws_route_table.private[each.key].id
   subnet_id      = aws_subnet.private[each.key].id
 }
-
+*/
