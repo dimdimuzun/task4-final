@@ -15,13 +15,7 @@ variable "vpc_id" {
   type        = string
   default     = ""
 }
-/*
-variable "private_subnets_id" {
-  description = "A list of private subnets id inside the VPC"
-  type        = list(string)
-  default     = []
-}
-*/
+
 variable "public_subnets_id" {
   description = "A list of public subnets id inside the VPC"
   type        = list(string)

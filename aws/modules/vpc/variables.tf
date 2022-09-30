@@ -32,7 +32,7 @@ variable "public_subnets_map" {
   }))
 
 }
-/*
+
 variable "private_subnets_map" {
   description = "Private subnets map"
   type = map(object({
@@ -42,4 +42,4 @@ variable "private_subnets_map" {
   
 }
 
-*/
+
